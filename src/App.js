@@ -5,7 +5,12 @@ import axios from 'axios'
 
 class App extends Component {
 	
+	state = {
+		venue: []
+	}
+	
 	componentDidMount() {
+		this.getVenuesFourSquare()
 		this.loadMap()
 	}
 	
@@ -16,17 +21,24 @@ class App extends Component {
 	
 /*gets Venues from Foursquare*/ 
 	getVenuesFourSquare = () => {
-		const lastPoint = "https://api.foursquare.com/v2/venues/explore"
+		const lastPoint = "https://api.foursquare.com/v2/venues/explore?"
 		const param = {
 			client_id: "HYLFQ5SUKKGMKEWALBY4N3VNHOKX3SO1H2ZUEB2RBF2ZUMAI",
 			client_secret: "OKTJWB0JAMXAHPC03ON0UT4OKJIOYXUM0P2QKI2I1O35K2U5",
 			query: "shops",
 			near: "Sidney",
+			v: "20182507"
 		}
-		
+
+/* get Parameters by using axios */		
 		axios.get(lastPoint + new URLSearchParams(param))
 			.then(response => {
-				console.log(response)
+				this.setState({
+					venues: response.data.response.groups[0].items
+				})
+			})
+			.catch(error => {
+				console.log("Error " + error)
 			})
 	}
 	
@@ -34,7 +46,7 @@ class App extends Component {
         const map = new window.google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 8
-        });
+        })
       }
 	
 	
