@@ -25,7 +25,7 @@ class App extends Component {
 			client_id: "HYLFQ5SUKKGMKEWALBY4N3VNHOKX3SO1H2ZUEB2RBF2ZUMAI",
 			client_secret: "OKTJWB0JAMXAHPC03ON0UT4OKJIOYXUM0P2QKI2I1O35K2U5",
 			query: "restaurant",
-			near: "Sidney",
+			near: "Salzburg",
 			v: "20182507"
 		}
 
@@ -43,8 +43,8 @@ class App extends Component {
 	
 	initMap = () => {
         var map = new window.google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
+          center: {lat: 47.811195, lng: 13.033229},
+          zoom: 15
         })
 		
 		var infowindow = new window.google.maps.InfoWindow()
