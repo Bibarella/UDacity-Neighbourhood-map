@@ -11,11 +11,10 @@ class App extends Component {
 	
 	componentDidMount() {
 		this.getVenuesFourSquare()
-		this.loadMap()
 	}
 	
 	loadMap = () => {
-		loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyDccS5PRoLH8cItEXSWTakiMTwfUvFgnLU&callback=initMap")
+		loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyD9avFCSC6zAgb4drhvsMPv4xlNdhxH_JM&callback=initMap")
 		window.initMap = this.initMap
 	}
 	
@@ -25,7 +24,7 @@ class App extends Component {
 		const param = {
 			client_id: "HYLFQ5SUKKGMKEWALBY4N3VNHOKX3SO1H2ZUEB2RBF2ZUMAI",
 			client_secret: "OKTJWB0JAMXAHPC03ON0UT4OKJIOYXUM0P2QKI2I1O35K2U5",
-			query: "shops",
+			query: "restaurant",
 			near: "Sidney",
 			v: "20182507"
 		}
@@ -35,7 +34,7 @@ class App extends Component {
 			.then(response => {
 				this.setState({
 					venues: response.data.response.groups[0].items
-				})
+				}, this.loadMap())
 			})
 			.catch(error => {
 				console.log("Error " + error)
@@ -48,11 +47,16 @@ class App extends Component {
           zoom: 8
         })
 		
-		var marker = new window.google.maps.Marker({
-			position: {lat: -34.397, lng: 150.644},
+		 this.state.venues.map(myVenue => {
+
+
+			var marker = new window.google.maps.Marker({
+			position: {lat: myVenue.venue.location.lat , lng: myVenue.venue.location.lng},
 			map: map,
-		});
-      }
+			title: myVenue.venue.name
+			})
+		 })
+	}
 	
 	
   render() {
@@ -64,7 +68,7 @@ class App extends Component {
   }
 }
 
-/* loads script from index.html */ 
+/* loads script*/ 
 function loadScript(url) {
 	let index = window.document.getElementsByTagName("script")[0]
 	let script = window.document.createElement("script")
