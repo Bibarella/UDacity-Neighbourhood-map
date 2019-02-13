@@ -4,12 +4,17 @@ import './App.css';
 
 class App extends Component {
 	
+	componentDidMount() {
+		this.loadMap()
+	}
+	
 	loadMap = () => {
 		loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyDccS5PRoLH8cItEXSWTakiMTwfUvFgnLU&callback=initMap")
+		window.initMap = this.initMap
 	}
 	
 	initMap = () => {
-        const map = new google.maps.Map(document.getElementById('map'), {
+        const map = new window.google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 8
         });
