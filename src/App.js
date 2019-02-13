@@ -14,6 +14,17 @@ class App extends Component {
 		window.initMap = this.initMap
 	}
 	
+/*gets Venues from Foursquare*/ 
+	getVenuesFourSquare = () => {
+		const lastPoint = "https://api.foursquare.com/v2/venues/explore"
+		const param = {
+			client_id: "HYLFQ5SUKKGMKEWALBY4N3VNHOKX3SO1H2ZUEB2RBF2ZUMAI",
+			client_secret: "OKTJWB0JAMXAHPC03ON0UT4OKJIOYXUM0P2QKI2I1O35K2U5",
+			query: "shops",
+			near: "Sidney",
+		}
+	}
+	
 	initMap = () => {
         const map = new window.google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
