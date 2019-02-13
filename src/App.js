@@ -54,12 +54,14 @@ class App extends Component {
 			 
 			var contentString = `${myVenue.venue.name}`
 
+/*adds Markers to the map*/
 			var marker = new window.google.maps.Marker({
 			position: {lat: myVenue.venue.location.lat , lng: myVenue.venue.location.lng},
 			map: map,
 			title: myVenue.venue.name
 			})
-			
+
+/*Listener to open Marker Information*/			
 			marker.addListener('click', function() {
 				
 				infowindow.setContent(contentString)
