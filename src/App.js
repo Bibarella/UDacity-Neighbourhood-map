@@ -47,15 +47,27 @@ class App extends Component {
           zoom: 8
         })
 		
-		 this.state.venues.map(myVenue => {
+		var infowindow = new window.google.maps.InfoWindow()
 
+		
+		 this.state.venues.map(myVenue => {
+			 
+			var contentString = `${myVenue.venue.name}`
 
 			var marker = new window.google.maps.Marker({
 			position: {lat: myVenue.venue.location.lat , lng: myVenue.venue.location.lng},
 			map: map,
 			title: myVenue.venue.name
 			})
-		 })
+			
+			marker.addListener('click', function() {
+				
+				infowindow.setContent(contentString)
+				
+				infowindow.open(map, marker);
+			})
+		})
+			
 	}
 	
 	
