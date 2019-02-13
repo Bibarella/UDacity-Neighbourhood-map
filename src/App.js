@@ -23,6 +23,11 @@ class App extends Component {
 			query: "shops",
 			near: "Sidney",
 		}
+		
+		axios.get(lastPoint + new URLSearchParams(param))
+			.then(response => {
+				console.log(response)
+			})
 	}
 	
 	initMap = () => {
