@@ -4,6 +4,10 @@ import './App.css';
 
 class App extends Component {
 	
+	loadMap = () => {
+		loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyDccS5PRoLH8cItEXSWTakiMTwfUvFgnLU&callback=initMap")
+	}
+	
 	initMap = () => {
         const map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
