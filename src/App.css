@@ -12,3 +12,35 @@
         padding: 0;
       }
 	  
+#list {
+	width: 25%;
+	height: 100%;
+	z-index: 1;
+	position: absolute;
+	background: lightgrey;
+	border: 1px solid;
+}
+
+.ListItem {
+	padding-top: 8px;
+	text-align: initial;
+	font-weight: bold;
+}
+
+.ListAdress {
+	margin: 0;
+    padding-left: 15px;
+    margin-bottom: 10px;
+	font-weight: normal;
+}
+
+#list {
+	max-height: 100vh;
+    overflow-y: scroll;
+}
+
+input {
+	margin-top: 10px;
+    border: 1px solid #222222;
+	height: 25px;
+}

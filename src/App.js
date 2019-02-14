@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import './App.css';
 import Header from './Components/Header'
+import List from './Components/List';
 
 import axios from 'axios'
 
 class App extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			venues: [],
+			allVenues: []
+		}
 	
-	state = {
-		venues: []
+		this.map = {};
+		this.mapMarkers = [];
 	}
 	
 	componentDidMount() {
@@ -34,7 +41,8 @@ class App extends Component {
 		axios.get(lastPoint + new URLSearchParams(param))
 			.then(response => {
 				this.setState({
-					venues: response.data.response.groups[0].items
+					venues: response.data.response.groups[0].items, 
+					allVenues: response.data.response.groups[0].items
 				}, this.loadMap())
 			})
 			.catch(error => {
@@ -43,22 +51,29 @@ class App extends Component {
 	}
 	
 	initMap = () => {
-        var map = new window.google.maps.Map(document.getElementById('map'), {
+        this.map = new window.google.maps.Map(document.getElementById('map'), {
           center: {lat: 47.811195, lng: 13.033229},
           zoom: 15
         })
 		
-		var infowindow = new window.google.maps.InfoWindow()
+		this.updateMarkers();
+	}
+	
+	updateMarkers = () => {
+		let infowindow = new window.google.maps.InfoWindow()
 
+		// first remove all markers from the map
+		this.removeAllMapMarkers();
 		
 		 this.state.venues.map(myVenue => {
 			 
-			var contentString = `${myVenue.venue.name}`
+			let contentString = `${myVenue.venue.name}`
+			let contentStringAdress = `${myVenue.venue.location.adress}`
 
 /*adds Markers to the map*/
-			var marker = new window.google.maps.Marker({
+			let marker = new window.google.maps.Marker({
 			position: {lat: myVenue.venue.location.lat , lng: myVenue.venue.location.lng},
-			map: map,
+			map: this.map,
 			title: myVenue.venue.name
 			})
 
@@ -67,19 +82,43 @@ class App extends Component {
 				
 				infowindow.setContent(contentString)
 				
-				infowindow.open(map, marker);
+				infowindow.open(this.map, marker);
 			})
-		})
 			
+			this.mapMarkers.push(marker);
+		})
+		
 	}
 	
+	removeAllMapMarkers = () => {
+		this.mapMarkers.forEach((marker) => {
+			// setting the map null removes a marker from the map
+			marker.setMap(null);
+		});
+	}
+	
+	handleFilterChange = event => {
+		
+		let searchQuery = event.target.value;
+		console.log("handleFilterChange", searchQuery);
+		let allVenues = this.state.allVenues.slice();
+		let venues = this.filterLocations(searchQuery, allVenues);
+		this.setState({venues: venues}, this.updateMarkers());
+	};
+	
+	filterLocations = (searchQuery, locations) => {
+		return locations.filter(location =>
+			location.venue.name.toLowerCase().includes(searchQuery.toLowerCase())
+		);
+	};
 	
   render() {
     return (
 		<div className="App">
 			<Header />
+			<List venues={this.state.venues} handleFilterChange={this.handleFilterChange}/>
+			<div id="map"></div>
 			<main>
-				<div id="map"></div>
 			</main>
 		</div>
     );
